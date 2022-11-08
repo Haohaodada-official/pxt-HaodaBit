@@ -174,7 +174,7 @@ namespace HaodaBit {
         BB = 2
     }
 
-	/**
+    /**
      * Different modes for RGB or RGB+W NeoPixel strips
      */
     export enum NeoPixelMode {
@@ -426,8 +426,8 @@ namespace HaodaBit {
     /**
   *  set the IR receiver pin.
   */
-    //% blockId=setREC_pin block="set IR receiver pin: %myPin" 
-    //% weight=85 
+    //% blockId=setREC_pin block="set IR receiver pin: %myPin"
+    //% weight=85
     //% group="红外" blockGap=8
     export function setREC_pin(myPin: Ports) {
         let portaa = PortDigital[myPin]
@@ -519,7 +519,7 @@ namespace HaodaBit {
      * Do something when a receive IR
      */
     //% blockId=onReceivedIR block="on IR message received" blockInlineInputs=true
-    //% weight=70 
+    //% weight=70
     //% group="红外" blockGap=8
     export function onReceivedIR(handler: Action): void {
         tempHandler = handler
@@ -528,10 +528,10 @@ namespace HaodaBit {
 
 
     /**
-     * return the message of the received IR 
+     * return the message of the received IR
      */
     //% blockId=getMessage block="read IR"
-    //% weight=60 
+    //% weight=60
     //% group="红外" blockGap=8
     export function getMessage(): number {
 
@@ -581,7 +581,7 @@ namespace HaodaBit {
     export function MP3Connect(port: Ports): void {
         let pin = PortSerial[port]
         // todo: fiber may freeze on steam reading
-        serial.redirect(pin, SerialPin.P16, BaudRate.BaudRate9600)
+        serial.redirect(pin, SerialPin.P13, BaudRate.BaudRate9600)
     }
 
     //% blockId=HaodaBit_mp3_play block="MP3 |%pn"
@@ -600,10 +600,10 @@ namespace HaodaBit {
         serial.writeBuffer(buf)
     }
 
-	/**
+    /**
      * @param volumn is position, eg: 10
      */
-	 
+
     //% blockId=HaodaBit_mp3_volumn block="MP3_volume_set|%volumn"
     //% volumn.min=0 volumn.max=30
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -621,11 +621,11 @@ namespace HaodaBit {
         buf[7] = 0xef;
         serial.writeBuffer(buf)
     }
-	
-	/**
+
+    /**
      * @param index is position, eg: 1
      */
-	 
+
     //% blockId=HaodaBit_mp3_playindex block="MP3 play|index %index"
     //% weight=39
     //% group="音乐" blockGap=8
@@ -645,6 +645,33 @@ namespace HaodaBit {
         serial.writeBuffer(buf)
     }
 
+    /**
+     * @param folder is folder name, eg: 1
+     * @param file is file name, eg: 1
+     */
+
+    //% blockId=HaodaBit_mp3_playfolderfile block="MP3 play|%folder|file|%file"
+    //% weight=39
+    //% group="音乐" blockGap=8
+    export function MP3PlayFolderFile(folder: number, file: number): void {
+        let buf = pins.createBuffer(8);
+        if (folder == 0) {
+            folder = 1;
+        }
+        if (file == 0) {
+            file = 1;
+        }
+        buf[0] = 0x7e;
+        buf[1] = 0xff;
+        buf[2] = 0x06;
+        buf[3] = 0x0F;
+        buf[4] = 0x00;
+        buf[5] = folder;
+        buf[6] = file;
+        buf[7] = 0xef;
+        serial.writeBuffer(buf)
+    }
+
     //% blockId=HaodaBit_motor_servo block="Servo|%pin|degree|%degree"
     //% weight=100 blockGap=8
     //% degree.min=0 degree.max=270
@@ -658,7 +685,7 @@ namespace HaodaBit {
         pins.servoSetPulse(port, value)
     }
 
-	/**
+    /**
      * @param fre is position, eg: 523
      */
     //% blockId=HaodaBit_tone block="tone|%pin|frequency|%fre"
@@ -862,8 +889,8 @@ namespace HaodaBit {
     /**
      *  set the infrared LED pin.
      */
-    //% blockId=HaodaBit_setIR_pin block="set IR LED pin: %port" 
-    //% weight=90 
+    //% blockId=HaodaBit_setIR_pin block="set IR LED pin: %port"
+    //% weight=90
     //% group="红外" blockGap=8
 
     export function setIR_pin(port: Ports) {
@@ -876,7 +903,7 @@ namespace HaodaBit {
 
     /**
     * send message from IR LED. You must set the message encoding type, send how many times, and the message.
-	* @param msg is position, eg: 87
+    * @param msg is position, eg: 87
     */
     //% blockId=HaodaBit_sendMyMessage block="IR send message at: %msg"
     //% weight=100
@@ -977,7 +1004,7 @@ namespace HaodaBit {
      * power on
     */
     //% blockId="BMP280_POWER_ON" block="BMP280 power On"
-    //% weight=80 
+    //% weight=80
     //% group="传感器" blockGap=8
     export function PowerOn() {
         setreg(0xF4, 0x2F)
@@ -987,7 +1014,7 @@ namespace HaodaBit {
      * power off
      */
     //% blockId="BMP280_POWER_OFF" block="BMP280 power Off"
-    //% weight=80 
+    //% weight=80
     //% group="传感器" blockGap=8
     export function PowerOff() {
         setreg(0xF4, 0)
@@ -995,10 +1022,10 @@ namespace HaodaBit {
 
     /**
      * set I2C address
-     
+
     //% blockId="BMP280_SET_ADDRESS" block="BMP280 set address %addr"
     //% weight=80
-	//% group="传感器" blockGap=8
+    //% group="传感器" blockGap=8
     export function Address(addr: BMP280_I2C_ADDRESS) {
         BMP280_I2C_ADDR = addr
     }*/
@@ -1043,7 +1070,7 @@ namespace HaodaBit {
 
     /**
      * Runs the motor at the given speed
-	 * @param speed is position, eg: 50
+     * @param speed is position, eg: 50
      */
     //% weight=90 blockGap=8
     //% blockId=HaodaBit_MotorRun block="Motor|%index|dir|%Dir|speed|%speed"
@@ -1077,7 +1104,7 @@ namespace HaodaBit {
 
     //% weight=20 blockGap=8
     //% blockId=HaodaBit_motorStop block="Motor stop|%index"
-    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2 
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     //% group="执行" name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function motorStop(index: Motors) {
         setPwm((4 - index) * 2, 0, 0);
@@ -1095,9 +1122,9 @@ namespace HaodaBit {
             motorStop(idx);
         }
     }
-	
-	
-	//% blockId="HaodaBit_calibrate" block="Tracer calibrate"
+
+
+    //% blockId="HaodaBit_calibrate" block="Tracer calibrate"
     //% weight=90
     //% group="传感器" blockGap=8
     export function linecalibrate(): void {
@@ -1115,25 +1142,25 @@ namespace HaodaBit {
     export function Lineheight(pn: linechoosedb, heights: number): void {
 
 
-        /**	
-            	
-            	
+        /**
+
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x03, N76E003AT20_DATA1, N76E003AT20_DATA2);
-            	
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x05, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x07, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x09, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x13, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x14, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x19, N76E003AT20_DATA1, N76E003AT20_DATA2);
-        
+
                 i2cWrite_1(N76E003AT20_ADDRESS, 0x16, N76E003AT20_DATA1, N76E003AT20_DATA2);
-				i2cWrite_1(N76E003AT20_ADDRESS, 0x16, N76E003AT20_DATA1, N76E003AT20_DATA2);
+                i2cWrite_1(N76E003AT20_ADDRESS, 0x16, N76E003AT20_DATA1, N76E003AT20_DATA2);
         */
 
 
@@ -1182,10 +1209,10 @@ namespace HaodaBit {
         _matrixRotation: number; // the rotation type of matrix
 
         /**
-         * Shows all LEDs to a given color (range 0-255 for r, g, b). 
+         * Shows all LEDs to a given color (range 0-255 for r, g, b).
          * @param rgb RGB color of the LED
          */
-        //% blockId="HaodaBit_set_strip_color" block="%strip|show color %rgb=HaodaBit_colors" 
+        //% blockId="HaodaBit_set_strip_color" block="%strip|show color %rgb=HaodaBit_colors"
         //% weight=85 blockGap=8
         //% group="RGB"
         showColor(rgb: number) {
@@ -1198,16 +1225,16 @@ namespace HaodaBit {
 
 
         /**
-         * Set LED to a given color (range 0-255 for r, g, b). 
+         * Set LED to a given color (range 0-255 for r, g, b).
          * You need to call ``show`` to make the changes visible.
          * @param pixeloffset position of the NeoPixel in the strip
-		 * @param pixeloffset is position, eg: 1
+         * @param pixeloffset is position, eg: 1
          * @param rgb RGB color of the LED
          */
-        //% blockId="HaodaBit_set_pixel_color" block="%strip|set pixel color at %pixeloffset|to %rgb=HaodaBit_colors" 
+        //% blockId="HaodaBit_set_pixel_color" block="%strip|set pixel color at %pixeloffset|to %rgb=HaodaBit_colors"
         //% blockGap=8
         //% weight=80
-        //% group="RGB" 
+        //% group="RGB"
         setPixelColor(pixeloffset: number, rgb: number): void {
             let pixelrgb = pixeloffset - 1;
             this.setPixelRGB(pixelrgb >> 0, rgb >> 0);
@@ -1236,7 +1263,7 @@ namespace HaodaBit {
             const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
             this.buf.fill(0, this.start * stride, this._length * stride);
             sendBuffer(this.buf, this.pin);
-			basic.pause(0.1);
+            basic.pause(0.1);
         }
 
 
@@ -1254,10 +1281,10 @@ namespace HaodaBit {
 
 
 
-        /** 
+        /**
          * Create a range of LEDs.
          * @param start offset in the LED strip to start the range. eg
-		 * @param pixelnums is first leds, eg: 1
+         * @param pixelnums is first leds, eg: 1
          * @param length number of LEDs in the range. eg: 4
          */
         //% weight=89
@@ -1284,7 +1311,7 @@ namespace HaodaBit {
          * Set the pin where the neopixel is connected, defaults to P0.
          */
         //% weight=10
-       
+
 
         setPin(pin: DigitalPin): void {
             this.pin = pin;
@@ -1536,7 +1563,7 @@ namespace HaodaBit {
             if (numhu > 0) {
                 digit_digit(numhu, 2)
             }
-           
+
         digit1(Math.idiv(num, 1000) % 10, 0)
         digit1(num % 10, 3)
         digit1(Math.idiv(num, 10) % 10, 2)
@@ -1549,7 +1576,7 @@ namespace HaodaBit {
     /**
      * show Dot Point in given position
      * @param show is true/false, eg: true
-	 * @param bit is position, eg: 1
+     * @param bit is position, eg: 1
      */
     //% blockId="HaodaBit_TM650_SHOW_DP" block="4DigitDisplay show dot point %bit|show %num"
     //% weight=80 blockGap=8
